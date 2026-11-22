@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard — {{ month|date:'F Y' }}</h2>
+<form method="get">{{ month_form.as_p }}<button>Show month</button></form>
+<div class="cards">
+<div class="card">Collections received<strong>₹{{ received|floatformat:2 }}</strong></div>
+<div class="card">Expenses paid<strong>₹{{ spent|floatformat:2 }}</strong></div>
+<div class="card">Net movement<strong>₹{{ net|floatformat:2 }}</strong></div>
+<div class="card">Maintenance outstanding<strong>₹{{ outstanding|floatformat:2 }}</strong></div>
+</div>
+<section><p>Collections and expenses use the actual payment date. Outstanding uses the selected maintenance month and includes all payments recorded against those charges, even if received in another month.</p><p>Charges generated: {{ charge_count }}. Generate charges on the Maintenance page before checking dues.</p><p class="muted">Net movement is not a bank balance. Opening funds, bank reconciliation, advances and refunds are not included.</p></section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<section><h2>{% if editing %}Edit {{ editing.number }}{% else %}Add flat{% endif %}</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button>Save flat</button> {% if editing %}<a href="{% url 'flats' %}">Cancel</a>{% endif %}</form></section>
+<section><h2>Flats</h2><div class="table-wrap"><table><thead><tr><th>Flat</th><th>Resident</th><th>Monthly maintenance</th><th>Active</th><th></th></tr></thead><tbody>
+{% for flat in flats %}<tr><td>{{ flat.number }}</td><td>{{ flat.resident_name }}</td><td>₹{{ flat.monthly_maintenance|floatformat:2 }}</td><td>{{ flat.active|yesno:'Yes,No' }}</td><td><a href="{% url 'flat_edit' flat.pk %}">Edit</a></td></tr>{% empty %}<tr><td colspan="5">No flats yet. Add your first flat above.</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

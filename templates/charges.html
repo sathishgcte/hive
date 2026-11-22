@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}<h2>Maintenance — {{ month|date:'F Y' }}</h2>
+<form method="get">{{ month_form.as_p }}<button>Show month</button></form>
+<section><form method="post">{% csrf_token %}<input type="hidden" name="month" value="{{ month|date:'Y-m' }}"><button>Generate charges for {{ month|date:'F Y' }}</button></form><p>Creates missing charges for active flats. Existing charges and historical amounts stay unchanged.</p></section>
+<section><div class="table-wrap"><table><thead><tr><th>Flat</th><th>Due</th><th>Paid</th><th>Outstanding</th><th>Status</th><th></th></tr></thead><tbody>
+{% for charge in charges %}<tr><td>{{ charge.flat.number }}</td><td>₹{{ charge.amount_due|floatformat:2 }}</td><td>₹{{ charge.paid|floatformat:2 }}</td><td>₹{{ charge.outstanding|floatformat:2 }}</td><td>{{ charge.status }}</td><td><a href="{% url 'payment' charge.pk %}">Payments</a></td></tr>{% empty %}<tr><td colspan="6">No charges. Add flats, then generate this month's charges.</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}
